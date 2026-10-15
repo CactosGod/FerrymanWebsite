@@ -1,0 +1,52 @@
+[
+  {
+    "id": "tycoon-1",
+    "name": "The Tycoon",
+    "desc": "Black fur felt western. Teardrop crown, hand-rolled brim, backed python band, guinea fowl feather — and the house joker. One of one.",
+    "price": "€420",
+    "sold": false,
+    "tag": "Fur felt · Available",
+    "image": "assets/hat-tycoon.jpg",
+    "size": "large"
+  },
+  {
+    "id": "gambler-1",
+    "name": "The Gambler",
+    "desc": "Telescope crown, upswept brim, black grosgrain with a silver skull. Sand wool felt.",
+    "price": "",
+    "sold": true,
+    "tag": "Wool felt · Gallery piece",
+    "image": "assets/hat-gambler.jpg",
+    "size": "normal"
+  },
+  {
+    "id": "ferryman-no1",
+    "name": "Ferryman №1",
+    "desc": "The first hat off the block. Teardrop crease, braided band, sea-tested in Helsinki.",
+    "price": "",
+    "sold": true,
+    "tag": "Wool felt · Gallery piece",
+    "image": "assets/hat-lautturi.jpg",
+    "size": "normal"
+  },
+  {
+    "id": "founder-mto",
+    "name": "The Founder",
+    "desc": "The outdoor model, made to order: blocked to your head, creased to your taste, your name in the sweatband.",
+    "price": "From €290",
+    "sold": false,
+    "tag": "Made to order · 3–4 weeks",
+    "image": "assets/hat-founder.jpg",
+    "size": "normal"
+  },
+  {
+    "id": "interior",
+    "name": "Between worlds, inside",
+    "desc": "Every Ferryman is lined by hand — silk crown, hand-stitched leather sweatband, the owner's name where only they will see it.",
+    "price": "House interior",
+    "sold": false,
+    "tag": "Detail · Every hat",
+    "image": "assets/hat-interior.jpg",
+    "size": "wide"
+  }
+]

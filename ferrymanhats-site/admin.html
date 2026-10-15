@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ferryman Hat Co. — Admin</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #11110f; --ivory: #f3eee4; --paper: #ded6c8; --ash: #8c8983;
+      --line: rgba(17,17,15,.18);
+      --display: "Cinzel", Georgia, serif; --sans: "Inter", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--ivory); color: var(--ink);
+      font-family: var(--sans); font-size: 15px; line-height: 1.5;
+    }
+    header {
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      padding: 18px max(24px, calc((100vw - 1100px) / 2));
+      background: var(--ink); color: var(--ivory);
+    }
+    header h1 {
+      margin: 0; font-family: var(--display); font-weight: 500;
+      text-transform: uppercase; letter-spacing: .12em; font-size: 16px;
+    }
+    header a { color: var(--paper); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; text-decoration: none; }
+    header a:hover { color: var(--ivory); }
+    main { max-width: 1100px; margin: 0 auto; padding: 32px 24px 90px; }
+
+    .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 22px; flex-wrap: wrap; }
+    .toolbar p { margin: 0; color: var(--ash); font-size: 13px; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 42px; padding: 0 18px; border: 1px solid var(--ink); border-radius: 1px;
+      background: var(--ink); color: var(--ivory); font: inherit; font-size: 12px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: .12em; cursor: pointer;
+    }
+    .btn:hover { opacity: .85; }
+    .btn.ghost { background: transparent; color: var(--ink); }
+    .btn.danger { background: transparent; color: #8a2f22; border-color: #8a2f22; }
+    .btn.small { min-height: 32px; padding: 0 10px; font-size: 10px; }
+
+    .card {
+      display: grid; grid-template-columns: 180px 1fr auto; gap: 20px;
+      background: #fff; border: 1px solid var(--line); padding: 18px; margin-bottom: 16px;
+    }
+    .card.sold-card { opacity: .82; }
+    .thumb { width: 180px; }
+    .thumb img { width: 100%; height: 130px; object-fit: cover; display: block; border: 1px solid var(--line); background: #1a1a18; }
+    .thumb .imgbtn { margin-top: 8px; width: 100%; }
+    .thumb input[type=file] { display: none; }
+
+    .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; align-content: start; }
+    .fields label { display: grid; gap: 4px; font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: var(--ash); }
+    .fields label.full { grid-column: 1 / -1; }
+    .fields input[type=text], .fields select, .fields textarea {
+      font: inherit; font-size: 14px; color: var(--ink);
+      border: 1px solid var(--line); border-radius: 0; background: var(--ivory);
+      padding: 8px 10px; width: 100%;
+    }
+    .fields textarea { resize: vertical; min-height: 54px; }
+    .fields input:focus, .fields select:focus, .fields textarea:focus { outline: 1px solid var(--ink); }
+    .soldrow { display: flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); }
+    .soldrow input { width: 16px; height: 16px; accent-color: var(--ink); }
+
+    .side { display: grid; gap: 8px; align-content: start; }
+
+    .addwrap { margin-top: 28px; text-align: center; }
+    #status {
+      position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+      background: var(--ink); color: var(--ivory); padding: 10px 22px;
+      font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+      border-radius: 2px; opacity: 0; transition: opacity .25s; pointer-events: none;
+    }
+    #status.show { opacity: 1; }
+    #status.error { background: #8a2f22; }
+    .dirty-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #b98523; margin-left: 8px; vertical-align: middle; visibility: hidden; }
+    .dirty .dirty-dot { visibility: visible; }
+
+    @media (max-width: 760px) {
+      .card { grid-template-columns: 1fr; }
+      .thumb { width: 100%; }
+      .thumb img { height: 180px; }
+      .side { grid-auto-flow: column; justify-content: start; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Ferryman — Hat Admin<span class="dirty-dot" title="Unsaved changes"></span></h1>
+    <a href="index.html">← View site</a>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <p>Add, edit, reorder and delete the hats shown in the gallery. Changes go live when you press <strong>Save all</strong>.</p>
+      <button class="btn" id="save">Save all</button>
+    </div>
+    <div id="list"></div>
+    <div class="addwrap">
+      <button class="btn ghost" id="add">+ Add a hat</button>
+    </div>
+  </main>
+
+  <div id="status"></div>
+
+  <script>
+  let products = [];
+  let dirty = false;
+
+  const list = document.getElementById('list');
+  const statusEl = document.getElementById('status');
+
+  function setDirty(v) {
+    dirty = v;
+    document.body.classList.toggle('dirty', v);
+  }
+  function toast(msg, isError) {
+    statusEl.textContent = msg;
+    statusEl.classList.toggle('error', !!isError);
+    statusEl.classList.add('show');
+    setTimeout(() => statusEl.classList.remove('show'), 2600);
+  }
+  function esc(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function render() {
+    list.innerHTML = '';
+    products.forEach((p, i) => {
+      const card = document.createElement('div');
+      card.className = 'card' + (p.sold ? ' sold-card' : '');
+      card.innerHTML = `
+        <div class="thumb">
+          <img src="${esc(p.image) || 'assets/favicon.svg'}" alt="">
+          <button class="btn ghost small imgbtn" data-act="pick">Change photo</button>
+          <input type="file" accept="image/*" data-role="file">
+        </div>
+        <div class="fields">
+          <label>Name<input type="text" data-f="name" value="${esc(p.name)}"></label>
+          <label>Price text (e.g. €420, From €290)<input type="text" data-f="price" value="${esc(p.price)}"></label>
+          <label>Tag line (small print)<input type="text" data-f="tag" value="${esc(p.tag)}"></label>
+          <label>Card size
+            <select data-f="size">
+              <option value="normal" ${p.size==='normal'?'selected':''}>Standard</option>
+              <option value="large" ${p.size==='large'?'selected':''}>Large</option>
+              <option value="wide" ${p.size==='wide'?'selected':''}>Full width</option>
+            </select>
+          </label>
+          <label class="full">Description<textarea data-f="desc">${esc(p.desc)}</textarea></label>
+          <div class="soldrow full"><input type="checkbox" data-f="sold" ${p.sold?'checked':''} id="sold-${i}"><label for="sold-${i}" style="all:unset;cursor:pointer">Sold out</label></div>
+        </div>
+        <div class="side">
+          <button class="btn ghost small" data-act="up" ${i===0?'disabled':''}>↑</button>
+          <button class="btn ghost small" data-act="down" ${i===products.length-1?'disabled':''}>↓</button>
+          <button class="btn danger small" data-act="del">Delete</button>
+        </div>`;
+
+      card.querySelectorAll('[data-f]').forEach(el => {
+        el.addEventListener('input', () => {
+          const f = el.dataset.f;
+          p[f] = (el.type === 'checkbox') ? el.checked : el.value;
+          if (f === 'sold') card.classList.toggle('sold-card', p.sold);
+          setDirty(true);
+        });
+      });
+      card.querySelector('[data-act=pick]').addEventListener('click', () =>
+        card.querySelector('[data-role=file]').click());
+      card.querySelector('[data-role=file]').addEventListener('change', e =>
+        uploadImage(e.target.files[0], p, card));
+      card.querySelector('[data-act=del]').addEventListener('click', () => {
+        if (confirm(`Delete "${p.name}" from the gallery?`)) {
+          products.splice(i, 1); setDirty(true); render();
+        }
+      });
+      card.querySelector('[data-act=up]').addEventListener('click', () => {
+        [products[i-1], products[i]] = [products[i], products[i-1]]; setDirty(true); render();
+      });
+      card.querySelector('[data-act=down]').addEventListener('click', () => {
+        [products[i+1], products[i]] = [products[i], products[i+1]]; setDirty(true); render();
+      });
+      list.appendChild(card);
+    });
+  }
+
+  // Resize in the browser (max 1600 px, JPEG q0.82) before upload.
+  async function uploadImage(file, p, card) {
+    if (!file) return;
+    try {
+      const img = await createImageBitmap(file);
+      const scale = Math.min(1, 1600 / Math.max(img.width, img.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(img.width * scale);
+      canvas.height = Math.round(img.height * scale);
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.82));
+      const base = (file.name.replace(/\.[^.]*$/, '') || 'hat').slice(0, 40);
+      const resp = await fetch(`/api/upload?name=${encodeURIComponent(base + '.jpg')}`,
+        { method: 'POST', body: blob });
+      if (!resp.ok) throw new Error((await resp.json()).error || resp.status);
+      const { path } = await resp.json();
+      p.image = path;
+      card.querySelector('.thumb img').src = path + '?t=' + Date.now();
+      setDirty(true);
+      toast('Photo uploaded — remember to Save all');
+    } catch (err) {
+      toast('Upload failed: ' + err.message, true);
+    }
+  }
+
+  document.getElementById('add').addEventListener('click', () => {
+    products.push({
+      id: 'hat-' + Date.now(),
+      name: 'New hat', desc: '', price: '', sold: false,
+      tag: 'Fur felt · Available', image: '', size: 'normal'
+    });
+    setDirty(true); render();
+    list.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  document.getElementById('save').addEventListener('click', async () => {
+    try {
+      const resp = await fetch('/api/products', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(products)
+      });
+      if (!resp.ok) throw new Error((await resp.json()).error || resp.status);
+      setDirty(false);
+      toast('Saved — the site is up to date');
+    } catch (err) {
+      toast('Save failed: ' + err.message, true);
+    }
+  });
+
+  window.addEventListener('beforeunload', e => {
+    if (dirty) { e.preventDefault(); e.returnValue = ''; }
+  });
+
+  fetch('/api/products')
+    .then(r => r.json())
+    .then(data => { products = data; render(); })
+    .catch(() => toast('Could not load products — run: python3 serve.py', true));
+  </script>
+</body>
+</html>
