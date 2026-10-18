@@ -6,17 +6,7 @@
     "price": "€290 wool, €390 fur",
     "sold": false,
     "tag": "Full swag",
-    "image": "assets/hat-tycoon.jpg",
-    "size": "large"
-  },
-  {
-    "id": "gambler-1",
-    "name": "The Gambler",
-    "desc": "Telescope crown, western brim, black grosgrain with a silver skull. Ask about customisation options. Made to order, delivery time 3-6 weeks.",
-    "price": "€290 wool, €390 fur",
-    "sold": false,
-    "tag": "Double up or quit?",
-    "image": "assets/hat-gambler.jpg",
+    "image": "assets/uploads/1792317916-Tycoon.jpg",
     "size": "large"
   },
   {
@@ -26,7 +16,7 @@
     "price": "€290 wool, €390 fur",
     "sold": false,
     "tag": "Trailblazer",
-    "image": "assets/hat-founder.jpg",
+    "image": "assets/uploads/1792317960-Founder.jpg",
     "size": "large"
   },
   {
