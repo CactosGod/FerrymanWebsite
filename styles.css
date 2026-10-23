@@ -222,9 +222,9 @@ button, input, textarea, select { font: inherit; }
   grid-template-columns: repeat(12, 1fr);
   gap: 18px;
 }
-.hat-card { grid-column: span 4; }
-.hat-card-large { grid-column: span 8; }
-.hat-card-wide { grid-column: span 12; }
+/* Column placement comes from script.js via --col: larges own their row,
+   standards pair up; every row is 8 cols wide except full-width cards. */
+.hat-card { grid-column: var(--col, span 4); }
 .hat-photo {
   position: relative;
   overflow: hidden;
