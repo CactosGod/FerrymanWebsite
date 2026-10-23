@@ -37,6 +37,26 @@
     "sold": false,
     "tag": "Detail · Every hat",
     "image": "assets/hat-interior.jpg",
-    "size": "large"
+    "size": "normal"
+  },
+  {
+    "id": "hat-1792781835144",
+    "name": "Leevi's hat",
+    "desc": "Leevi's hat is made for outdoor adventures and features a brass disk bearing his jersey number.",
+    "price": "The Founder",
+    "sold": false,
+    "tag": "The 1st Ferryman hat made to order",
+    "image": "assets/uploads/1792782557-IMG_0248.jpg",
+    "size": "normal"
+  },
+  {
+    "id": "hat-1792782400540",
+    "name": "Attention to detail",
+    "desc": "Every leather sweatband is sewn in by hand with care and attention to detail. ",
+    "price": "Sweatband",
+    "sold": false,
+    "tag": "Hand-stitched",
+    "image": "assets/uploads/1792782409-IMG_0220_202.jpg",
+    "size": "normal"
   }
 ]
