@@ -23,6 +23,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Render hat gallery into static HTML (crawlers / no-JS readers)
+        run: node scripts/build-gallery.mjs index.html
+
       - name: Assemble public site (strip local admin tooling)
         run: |
           mkdir -p _site
@@ -30,6 +33,7 @@ jobs:
             --exclude '.git' \
             --exclude '.github' \
             --exclude '_site' \
+            --exclude 'scripts' \
             --exclude 'admin.html' \
             --exclude 'serve.py' \
             --exclude 'README.md' \

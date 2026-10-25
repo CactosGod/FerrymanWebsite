@@ -59,7 +59,10 @@ if (grid) {
     .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(renderHats)
     .catch(() => {
-      grid.innerHTML = '<p style="color:var(--ash);grid-column:span 12">' +
-        'Could not load products.json — serve this folder (python3 serve.py) instead of opening the file directly.</p>';
+      // Keep the deploy-time pre-rendered cards if they're already there.
+      if (!grid.querySelector('.hat-card')) {
+        grid.innerHTML = '<p style="color:var(--ash);grid-column:span 12">' +
+          'Could not load products.json — serve this folder (python3 serve.py) instead of opening the file directly.</p>';
+      }
     });
 }
