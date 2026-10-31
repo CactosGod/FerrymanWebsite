@@ -20,6 +20,16 @@
     "size": "large"
   },
   {
+    "id": "hat-1793447161392",
+    "name": "The Harlem",
+    "desc": "Pork pie in pure fur felt. Hand-bound brim, python band, hand-stamped brass plate numbered to the owner, leather sweatband and silk-walled interior.",
+    "price": "€490",
+    "sold": false,
+    "tag": "Jazz hat",
+    "image": "assets/uploads/1793447251-1E432A11-23DA-4FDD-9E53-27B1E5328F51.jpg",
+    "size": "large"
+  },
+  {
     "id": "ferryman-no1",
     "name": "Custom hat to your spec",
     "desc": "You decide everything, I make. Made to order, delivery time 4-12 weeks.",
