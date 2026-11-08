@@ -30,6 +30,16 @@
     "size": "large"
   },
   {
+    "id": "hat-1794160057366",
+    "name": "The Kingpin",
+    "desc": "Old school gangster fedora. Tear drop crown, asymmetric brim fold, grosgrain band, leather sweat, hand-made liner.",
+    "price": "€250 wool, €350 fur",
+    "sold": false,
+    "tag": "Mobster style",
+    "image": "assets/uploads/1794160155-IMG_0424.jpg",
+    "size": "large"
+  },
+  {
     "id": "ferryman-no1",
     "name": "Custom hat to your spec",
     "desc": "You decide everything, I make. Made to order, delivery time 4-12 weeks.",
